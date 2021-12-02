@@ -35,6 +35,9 @@ intParser = Parser $ \input -> let (token, rest) = span (== '-') input in if not
 alphaNumStringParser :: Parser String
 alphaNumStringParser = Parser $ \input -> let (token, rest) = span (\char -> isLetter char || isDigit char) input in if null token then Nothing else Just (token, rest)
 
+stringParser :: Parser String
+stringParser = Parser $ \input -> let (token, rest) = span (\char -> isLetter char) input in if null token then Nothing else Just (token, rest)
+
 wsParser :: Parser String
 wsParser = Parser $ \input -> let (token, rest) = span isSpace input in Just (token, rest)
 
