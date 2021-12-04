@@ -4,6 +4,8 @@ import Utils.Parser
     intParser,
     wsParser
   )
+import Utils.Helper
+import Data.List (transpose, foldl')
 
 magAndDirectionParser :: Parser (String, Int)
 magAndDirectionParser = fmap (,) stringParser <*> (wsParser *> intParser)
@@ -12,7 +14,7 @@ parseInput :: [String] -> [(String, Int)]
 parseInput xs = map (\x -> let Just (magAndDirection, _) = runParser magAndDirectionParser x in magAndDirection) xs
 
 calculateFinalPosition :: [(String, Int)] -> (Int, Int)
-calculateFinalPosition xs = firstTwo . foldl (\currentPosition magAndDirection -> calculateNewPosition currentPosition magAndDirection) (0,0,0) $ xs
+calculateFinalPosition xs = firstTwo . foldl' (\currentPosition magAndDirection -> calculateNewPosition currentPosition magAndDirection) (0,0,0) $ xs
         where 
             calculateNewPosition :: (Int, Int, Int) -> (String, Int) -> (Int, Int, Int)
             calculateNewPosition (x,y,z) (direction, magnitude) | direction == "forward" = (x + magnitude, y + z * magnitude, z)
@@ -25,4 +27,4 @@ calculateFinalPosition xs = firstTwo . foldl (\currentPosition magAndDirection -
 multiplyCoordinates :: (Int, Int) -> Int
 multiplyCoordinates (x,y) = x*y
 
-main = readFile "./2021/day2/input.txt" >>= print . multiplyCoordinates . calculateFinalPosition . parseInput . lines
+main = getArgAndReadFile >>= print . multiplyCoordinates . calculateFinalPosition . parseInput . lines
