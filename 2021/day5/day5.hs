@@ -17,10 +17,6 @@ createVentMap ventLines = M.fromList [((row, col), 0) | row <- [0..maxRow], col 
     where maxRow = foldl' (\acc numPair -> let (_,y1) = head numPair; (_,y2) = head $ tail numPair in max acc (max y1 y2)) (-1) ventLines
           maxCol = foldl' (\acc numPair -> let (x1,_) = head numPair; (x2,_) = head $ tail numPair in max acc (max x1 x2)) (-1) ventLines
 
-pointsOnLine (x1,y1) (x2,y2) = [(x, x * slope + b) | x <- [x1..x2]]
-    where slope = (y2-y1) / (x2-x1)
-          b = y1 - (slope * x1)
-
 findAllPointsBetweenPoints :: (Int, Int) -> (Int, Int) -> [(Int, Int)]
 findAllPointsBetweenPoints (x1,y1) (x2,y2) | y1 == y2 = [(x,y1) | x <- [(min x1 x2) .. (max x1 x2)]]
                                            | x1 == x2 = [(x1,y) | y <- [(min y1 y2) .. (max y1 y2)]]
