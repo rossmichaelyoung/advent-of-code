@@ -21,8 +21,8 @@ pointsOnLine (x1,y1) (x2,y2) = [(x, x * slope + b) | x <- [x1..x2]]
           b = y1 - (slope * x1)
 
 findAllPointsBetweenPoints :: (Int, Int) -> (Int, Int) -> [(Int, Int)]
-findAllPointsBetweenPoints (x1,y1) (x2,y2) | y1 == y2 = let smallX = min x1 x2; bigX = max x1 x2 in foldl' (\acc x -> (x,y1) : acc) [] [x | x <- [smallX..bigX]]
-                                           | x1 == x2 = let smallY = min y1 y2; bigY = max y1 y2 in foldl' (\acc y -> (x1,y) : acc) [] [y | y <- [smallY..bigY]]
+findAllPointsBetweenPoints (x1,y1) (x2,y2) | y1 == y2 = [(x,y1) | x <- [(min x1 x2) .. (max x1 x2)]]
+                                           | x1 == x2 = [(x1,y) | y <- [(min y1 y2) .. (max y1 y2)]]
                                            | x1 /= x2 && y1 /= y2 = [(x, x * slope + b) | x <- [(min x1 x2) .. (max x1 x2)]]
     where slope = (y2-y1) `div` (x2-x1)
           b = y1 - (slope * x1)
