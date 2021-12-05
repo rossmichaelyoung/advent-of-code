@@ -41,5 +41,8 @@ stringParser = Parser $ \input -> let (token, rest) = span (\char -> isLetter ch
 wsParser :: Parser String
 wsParser = Parser $ \input -> let (token, rest) = span isSpace input in Just (token, rest)
 
+commaParser :: Parser String
+commaParser = Parser $ \input -> let (token, rest) = span (== ',') input in Just (token, rest)
+
 sepByParser :: Parser a -> Parser b -> Parser [b]
 sepByParser sep value = (:) <$> value <*> many (sep *> value) <|> pure []
