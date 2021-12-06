@@ -13,7 +13,7 @@ inputParser = Parser $ \input -> runParser numPair input >>= \(x, input') -> run
     where numPair = sepByParser commaParser naturalNumParser
 
 createVentMap :: [[(Int, Int)]] -> M.Map (Int, Int) Int
-createVentMap ventLines = M.fromList [((row, col), 0) | row <- [0..maxRow], col <- [0..maxCol]]
+createVentMap ventLines = M.fromList [((col, row), 0) | row <- [0..maxRow], col <- [0..maxCol]]
     where maxRow = foldl' (\acc numPair -> let (_,y1) = head numPair; (_,y2) = head $ tail numPair in max acc (max y1 y2)) (-1) ventLines
           maxCol = foldl' (\acc numPair -> let (x1,_) = head numPair; (x2,_) = head $ tail numPair in max acc (max x1 x2)) (-1) ventLines
 
