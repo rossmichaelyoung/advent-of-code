@@ -32,6 +32,6 @@ main = do
     let ventLines = foldl' (\acc line -> let Just (x,_) = runParser inputParser line in x : acc) [] (lines fileContent)
     let ventMap = createVentMap ventLines
     let ventMap' = foldl' (\acc endPoints -> let points = findAllPointsBetweenPoints (head endPoints) (head $ tail endPoints) in addPointsToMap acc points) ventMap ventLines
-    let sum = foldr (\val acc -> if val >= 2 then acc+1 else acc) 0 ventMap'
+    let sum = foldl' (\val acc -> if val >= 2 then acc+1 else acc) 0 ventMap'
     print sum
     
